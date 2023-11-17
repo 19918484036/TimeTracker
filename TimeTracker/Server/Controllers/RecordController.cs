@@ -7,39 +7,7 @@ namespace TimeTracker.Server.Controllers
     [ApiController]
     public class RecordController : ControllerBase
     {
-        //private static List<RecordData> Datas = new List<RecordData>
-        //{
-        //    new RecordData
-        //    {
-        //        Id = 0,
-        //        Date = DateTime.Parse("2023-11-8") ,
-        //        WorkStartTimeMorning = DateTime.Parse("8:30:00"),
-        //        WorkEndTimeMorning = DateTime.Parse("12:00:00"),
-        //        WorkStartTimeAfternoon = DateTime.Parse("13:30:00"),
-        //        WorkEndTimeAfternoon = DateTime.Parse("17:00:00")
-        //    },
-        //    new RecordData
-        //    {
-        //        Id = 1,
-        //        Date = DateTime.Parse("2023-11-9") ,
-        //        WorkStartTimeMorning = DateTime.Parse("8:30:00"),
-        //        WorkEndTimeMorning = DateTime.Parse("12:00:00"),
-        //        WorkStartTimeAfternoon = DateTime.Parse("13:30:00"),
-        //        WorkEndTimeAfternoon = DateTime.Parse("17:00:00")
-
-        //    },
-        //    new RecordData
-        //    {
-        //        Id = 1,
-        //        Date = DateTime.Parse("2023-11-10") ,
-        //        WorkStartTimeMorning = DateTime.Parse("8:30:00"),
-        //        WorkEndTimeMorning = DateTime.Parse("12:00:00"),
-        //        WorkStartTimeAfternoon = DateTime.Parse("13:30:00"),
-        //        WorkEndTimeAfternoon = DateTime.Parse("17:00:00")
-        //    }
-        //};
-
-
+        
         private readonly IRecordService _recordService;
 
         public RecordController(IRecordService recordService)
@@ -53,6 +21,17 @@ namespace TimeTracker.Server.Controllers
             var result = await _recordService.GetRecordsAsync();
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<int>>> PostRecordsAsync(RecordData recordData)
+        {
+            var response = await _recordService.PostRecordsAsync(recordData);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
     }

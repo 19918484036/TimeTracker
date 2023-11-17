@@ -1,0 +1,45 @@
+﻿@inject IRecordService RecordService
+
+<h1 class="mb-3">Record your work schedule for today!</h1>
+
+<EditForm Model="recordData" OnValidSubmit="HandleRecordPost">
+    <DataAnnotationsValidator/>
+    <div class="mb-3">
+        <span>Morning work start time:</span>
+        <input type="time" id="WorkStartTimeMorning" @bind="recordData.WorkStartTimeMorning"></input>
+        <span>Morning work end time:</span>
+        <input type="time" id="WorkEndTimeMorning" @bind="recordData.WorkEndTimeMorning"></input>
+    </div>
+    <div class="mb-3">
+        <span>Afternoon work start time:</span>
+        <input type="time" id="WorkStartTimeAfternoon" @bind="recordData.WorkStartTimeAfternoon"></input>
+        <span>Afternoon work end time:</span>
+        <input type="time" id="WorkEndTimeAfternoon" @bind="recordData.WorkEndTimeAfternoon"></input>
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">submit</button>
+    <div class="@messageCssClass"><span>@message</span></div>
+    <ValidationSummary/>
+
+</EditForm>
+
+
+@code {
+    RecordData recordData = new RecordData();
+    String message = String.Empty;
+    String messageCssClass = String.Empty;
+
+    async Task HandleRecordPost()
+    {
+        recordData.Date = DateTime.Now;
+        var result = await RecordService.PostRecords(recordData);
+        message = result.Message;
+        if (result.Success)
+        {
+            messageCssClass = "text-success";
+        }
+        else
+        {
+            messageCssClass = "text-danger";
+        }
+    }
+}

@@ -19,5 +19,12 @@
             return response;
         }
 
+        public async Task<ServiceResponse<int>> PostRecordsAsync(RecordData recordData)
+        {
+            _context.RecordDatas.Add(recordData);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<int> { Data = recordData.Id, Message = "Added successfully" };
+        }
+
     }
 }
