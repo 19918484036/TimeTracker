@@ -1,0 +1,31 @@
+﻿.media-body {
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: darkkhaki;
+}
+
+
+.media-img-wrapper {
+    width: 200px;
+    text-align: center;
+}
+
+.price{
+    color: green;
+}
+
+@media (max-width: 1023.98px) {
+    .media{
+        flex-direction: column;
+    }
+
+    .media-img-wrapper{
+        width: 100%;
+        height: auto;
+    }
+
+    .media-body {
+        width: 100%;
+        height: auto;
+    }
+}

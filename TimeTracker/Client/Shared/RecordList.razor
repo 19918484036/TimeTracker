@@ -1,0 +1,33 @@
+﻿@inject HttpClient Http
+
+<ul class="list-unstyled">
+
+    @foreach(var Data in Datas)
+    {
+        <li class="media my-3">
+            <div class="media-body">
+                <h4 class="mb-0">@Data.Date.ToString("yyyy-MM-dd")</h4>
+                <p>@Data.WorkStartTimeMorning.ToString("HH:mm:ss")</p>
+                <p>@Data.WorkEndTimeMorning.ToString("HH:mm:ss")</p>
+                <p>@Data.WorkStartTimeAfternoon.ToString("HH:mm:ss")</p>
+                <p>@Data.WorkEndTimeAfternoon.ToString("HH:mm:ss")</p>
+            </div>
+        </li>
+    }
+
+</ul>
+
+@code {
+    private static List<RecordData> Datas = new List<RecordData>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Http.GetFromJsonAsync<ServiceResponse<List<RecordData>>>("api/Record");
+        if(result != null && result.Data != null)
+        {
+            Datas = result.Data;
+        }
+        
+    }
+
+}
