@@ -1,4 +1,6 @@
-﻿namespace TimeTracker.Client.Services.RecordService
+﻿using TimeTracker.Shared;
+
+namespace TimeTracker.Client.Services.RecordService
 {
     public class RecordService : IRecordService
     {
@@ -25,5 +27,10 @@
             return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
         }
 
+        public async Task<ServiceResponse<bool>> DeleteRecords(int RecordId)
+        {
+            var result = await _HttpClient.DeleteAsync($"api/Record?RecordId={RecordId}");
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+        }
     }
 }

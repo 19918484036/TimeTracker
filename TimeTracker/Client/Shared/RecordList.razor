@@ -17,10 +17,22 @@ else
                     <p>@record.WorkEndTimeMorning.ToString("HH:mm:ss")</p>
                     <p>@record.WorkStartTimeAfternoon.ToString("HH:mm:ss")</p>
                     <p>@record.WorkEndTimeAfternoon.ToString("HH:mm:ss")</p>
+                    <button class="btn btn-danger" @onclick="@(() => ShowConfirm(record.Id))">Delete</button>
+
+                    @if (showConfirm && delId == record.Id) 
+                    {
+                        <div class="alert alert-warning mt-3">
+                            <p>Are you sure you want to delete?</p>
+                            <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                            <button class="btn btn-danger" @onclick="Confirm">Yes</button>
+                        </div>
+                        showConfirm = false;
+                    }
+
                 </div>
             </li>
+      
         }
-
     </ul>
 }
 
@@ -33,4 +45,37 @@ else
         await RecordService.GetRecords();
     }
 
+    // async Task HandleRecordDel(int recordId)
+    // {
+
+    // }
+
+    bool showConfirm = false;
+    int delId = -1;
+
+    [Parameter]
+    public EventCallback OnConfirmed { get; set; }
+
+
+    void ShowConfirm(int Id)
+    {
+        showConfirm = true;
+        delId = Id;
+    }
+
+    void Cancel()
+    {
+        showConfirm = false;
+    }
+
+    async Task Confirm()
+    {
+        showConfirm = false;
+        
+        await RecordService.DeleteRecords(delId);
+
+        await RecordService.GetRecords();
+
+        await OnConfirmed.InvokeAsync();
+    }
 }

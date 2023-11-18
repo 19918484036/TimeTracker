@@ -34,5 +34,16 @@ namespace TimeTracker.Server.Controllers
             return Ok(response);
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<bool>>> RemoveRecordAsync(int RecordId)
+        {
+            var response = await _recordService.RemoveRecordAsync(RecordId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using TimeTracker.Client.Pages;
+
 namespace TimeTracker.Client.Services.RecordService
 {
     public interface IRecordService
@@ -8,6 +10,8 @@ namespace TimeTracker.Client.Services.RecordService
         Task GetRecords();
 
         Task<ServiceResponse<int>> PostRecords(RecordData recordData);
+
+        Task<ServiceResponse<bool>> DeleteRecords(int RecordId);
 
     }
 }

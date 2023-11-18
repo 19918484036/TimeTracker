@@ -26,5 +26,11 @@
             return new ServiceResponse<int> { Data = recordData.Id, Message = "Added successfully" };
         }
 
+        public async Task<ServiceResponse<bool>> RemoveRecordAsync(int RecordId)
+        {
+            _context.Remove(_context.RecordDatas.Single(a => a.Id == RecordId));
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<bool> { Data = true };
+        }
     }
 }
