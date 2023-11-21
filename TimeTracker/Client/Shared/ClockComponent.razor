@@ -1,0 +1,37 @@
+﻿<h2>ClockComponent</h2>
+
+<div class="clock mb-5">
+    <div class="hour-hand" style="transform: rotate(@hourRotation)"></div>
+    <div class="minute-hand" style="transform: rotate(@minuteRotation)"></div>
+    <div class="second-hand" style="transform: rotate(@secondRotation)"></div>
+</div>
+
+@code {
+    string hourRotation = string.Empty;
+    string minuteRotation = string.Empty;
+    string secondRotation = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        UpdateClock();
+    }
+
+    public async Task UpdateClock()
+    {
+        while (true)
+        {
+            var currentTime = DateTime.Now;
+            
+            this.hourRotation = $"rotate({30 * (currentTime.Hour % 12) + currentTime.Minute / 2}deg)";
+            this.minuteRotation = $"rotate({6 * currentTime.Minute}deg)";
+            this.secondRotation = $"rotate({6 * currentTime.Second}deg)";
+            Console.WriteLine(secondRotation);
+
+            // Notify the component to re-render
+            StateHasChanged();
+
+            // Delay for 1 second
+            await Task.Delay(1000);
+        }
+    }
+}
