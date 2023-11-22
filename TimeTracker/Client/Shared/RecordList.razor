@@ -12,19 +12,38 @@ else
         {
             <li class="media my-3">
                 <div class="media-body">
-                    <h4 class="mb-0">@record.Date.ToString("yyyy-MM-dd")</h4>
-                    <p>@record.WorkStartTimeMorning.ToString("HH:mm:ss")</p>
-                    <p>@record.WorkEndTimeMorning.ToString("HH:mm:ss")</p>
-                    <p>@record.WorkStartTimeAfternoon.ToString("HH:mm:ss")</p>
-                    <p>@record.WorkEndTimeAfternoon.ToString("HH:mm:ss")</p>
-                    <button class="btn btn-danger" @onclick="@(() => ShowConfirm(record.Id))">Delete</button>
+                    <h4 class="mb-2"><span>@record.Date.ToString("yyyy-MM-dd")</span></h4>
+                    <div>
+                        <span>AM &nbsp;&nbsp;</span>
+                        <span>@record.WorkStartTimeMorning.ToString("HH:mm") &nbsp;~</span>
+                        <span>@record.WorkEndTimeMorning.ToString("HH:mm")</span>
+                        <span> &nbsp;&nbsp; @TimeDifference(record.WorkStartTimeMorning, record.WorkEndTimeMorning) hours</span>
+                    </div>
+                    <div>
+                        <span>PM &nbsp;&nbsp;</span>
+                        <span>@record.WorkStartTimeAfternoon.ToString("HH:mm") &nbsp;~</span>
+                        <span>@record.WorkEndTimeAfternoon.ToString("HH:mm")</span>
+                        <span> &nbsp;&nbsp; @TimeDifference(record.WorkStartTimeAfternoon, record.WorkEndTimeAfternoon) hours</span>
+                        
+                    </div>
+                    <div style="text-align:right">
+                        <span>Total working hours: &nbsp;&nbsp;</span>
+                        <span style="margin-right:40px">@(TimeDifference(record.WorkStartTimeMorning, record.WorkEndTimeMorning) + TimeDifference(record.WorkStartTimeAfternoon, record.WorkEndTimeAfternoon)) hours</span>
+
+                        <button class="btn-Delete btn" @onclick="@(() => ShowConfirm(record.Id))">Delete</button>
+
+                    </div>
+                    
 
                     @if (showConfirm && delId == record.Id) 
                     {
                         <div class="alert alert-warning mt-3">
-                            <p>Are you sure you want to delete?</p>
-                            <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
-                            <button class="btn btn-danger" @onclick="Confirm">Yes</button>
+                            <span style="color:black">Are you sure you want to delete?</span>
+                            <div class="alert_btn">
+                                <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                                <button class="btn btn-danger" @onclick="Confirm">Yes</button>
+                            </div>
+                            
                         </div>
                         showConfirm = false;
                     }
@@ -43,6 +62,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await RecordService.GetRecords();
+        RecordService.Records.Reverse();
     }
 
     bool showConfirm = false;
@@ -51,6 +71,11 @@ else
     [Parameter]
     public EventCallback OnConfirmed { get; set; }
 
+    double TimeDifference(DateTime dateTime1, DateTime dateTime2)
+    {
+        return Math.Round((dateTime2 - dateTime1).TotalHours, 1);
+
+    }
 
     void ShowConfirm(int Id)
     {
@@ -70,6 +95,7 @@ else
         await RecordService.DeleteRecords(delId);
 
         await RecordService.GetRecords();
+        RecordService.Records.Reverse();
 
         await OnConfirmed.InvokeAsync();
     }

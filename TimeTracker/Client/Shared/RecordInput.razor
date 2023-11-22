@@ -5,16 +5,17 @@
 <EditForm Model="recordData" OnValidSubmit="HandleRecordPost">
     <DataAnnotationsValidator/>
     <div class="mb-3 center">
-        <h5>Morning work start time:</h5>
+        <h5>AM work start time:</h5>
         <input type="time" class="input_right" id="WorkStartTimeMorning" @bind="recordData.WorkStartTimeMorning"></input>
-        <h5>Afternoon work start time:</h5>
-        <input type="time" id="WorkStartTimeAfternoon" @bind="recordData.WorkStartTimeAfternoon"></input>
+        <h5>AM work end time:</h5>
+        <input type="time" id="WorkEndTimeMorning" style="margin-left:3px" @bind="recordData.WorkEndTimeMorning"></input>
+        
         
     </div>
     <div class="mb-3 center">
-        <h5>Morning work end time:</h5>
-        <input type="time" class="input_right" id="WorkEndTimeMorning" style="margin-left:3px" @bind="recordData.WorkEndTimeMorning"></input>
-        <h5>Afternoon work end time:</h5>
+        <h5>PM work start time:</h5>
+        <input type="time" class="input_right" id="WorkStartTimeAfternoon" @bind="recordData.WorkStartTimeAfternoon"></input>
+        <h5>PM work end time:</h5>
         <input type="time" id="WorkEndTimeAfternoon" style="margin-left:8px" @bind="recordData.WorkEndTimeAfternoon"></input>
     </div>
     <button type="submit" class="btn btn-primary mb-3 button_submit">submit</button>

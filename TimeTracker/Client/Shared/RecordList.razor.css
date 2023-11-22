@@ -1,7 +1,12 @@
 ﻿.media-body {
     border-radius: 6px;
-    margin-bottom: 10px;
-    background-color: darkkhaki;
+    background-color: #313338;
+    padding: 15px 25px 15px 25px;
+    /*border-bottom: 5px solid red;*/
+}
+
+div, h4 > span{
+    color: white;
 }
 
 
@@ -28,4 +33,15 @@
         width: 100%;
         height: auto;
     }
+}
+
+.btn-Delete {
+    background: #90CBFB;
+    color: aliceblue;
+    margin-top: 5px;
+    /*float: right;*/
+}
+
+.alert_btn {
+    text-align:right;
 }
