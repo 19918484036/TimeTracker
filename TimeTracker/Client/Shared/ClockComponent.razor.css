@@ -5,7 +5,6 @@
   border: 2px solid #000;
   border-radius: 50%;
   margin: 0 auto;
-  transform: rotate(90deg);
 }
 
 .hour-hand,
@@ -17,24 +16,27 @@
 }
 
 .hour-hand {
-  width: 6px;
-  height: 60px;
-  top: 50%;
-  left: calc(50% - 3px);
+    width: 6px;
+    height: 60px;
+    top: 20%;
+    left: calc(50% - 3px);
+    transform-origin: bottom center;
 }
 
 .minute-hand {
     width: 4px;
     height: 80px;
-    top: 50%;
+    top: 10%;
     left: calc(50% - 2px);
     background-color: brown;
+    transform-origin: bottom center;
 }
 
 .second-hand {
-  width: 2px;
-  height: 90px;
-  top: 50%;
-  left: calc(50% - 1px);
-  background-color: blue;
+    width: 2px;
+    height: 90px;
+    top: 5%;
+    left: calc(50% - 1px);
+    background-color: blue;
+    transform-origin: bottom center;
 }

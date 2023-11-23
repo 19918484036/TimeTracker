@@ -1,9 +1,9 @@
 ﻿<h2>ClockComponent</h2>
 
 <div class="clock mb-5">
-    <div class="hour-hand" style="transform: rotate(@hourRotation)"></div>
-    <div class="minute-hand" style="transform: rotate(@minuteRotation)"></div>
-    <div class="second-hand" style="transform: rotate(@secondRotation)"></div>
+    <div class="hour-hand" style="transform: @hourRotation"></div>
+    <div class="minute-hand" style="transform: @minuteRotation"></div>
+    <div class="second-hand" style="transform: @secondRotation"></div>
 </div>
 
 @code {
@@ -11,27 +11,30 @@
     string minuteRotation = string.Empty;
     string secondRotation = string.Empty;
 
+    DateTime currentTime = DateTime.Now;
+
+    private System.Timers.Timer timer;
+
     protected override void OnInitialized()
     {
-        UpdateClock();
+        // Create a timer that refreshes every second
+        base.OnInitialized();
+        timer = new(1000);
+        timer.Elapsed += (sender, eventArgs) => RefreshClock();
+        timer.Start();
     }
 
-    public async Task UpdateClock()
+    private void RefreshClock()
     {
-        while (true)
-        {
-            var currentTime = DateTime.Now;
+        currentTime = DateTime.Now;
             
-            this.hourRotation = $"rotate({30 * (currentTime.Hour % 12) + currentTime.Minute / 2}deg)";
-            this.minuteRotation = $"rotate({6 * currentTime.Minute}deg)";
-            this.secondRotation = $"rotate({6 * currentTime.Second}deg)";
-            Console.WriteLine(secondRotation);
+        this.hourRotation = $"rotate({30 * currentTime.Hour + currentTime.Minute / 2}deg)";
+        this.minuteRotation = $"rotate({6 * currentTime.Minute}deg)";
+        this.secondRotation = $"rotate({6 * currentTime.Second}deg)";
+        // Console.WriteLine(secondRotation);
+        // Notify the component to re-render
+        InvokeAsync(StateHasChanged);
 
-            // Notify the component to re-render
-            StateHasChanged();
-
-            // Delay for 1 second
-            await Task.Delay(1000);
-        }
     }
+
 }
